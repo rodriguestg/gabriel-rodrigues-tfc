@@ -30,7 +30,7 @@
 - [ ] Executei o comando npm run postinstall (que executará o npm install dentro das minhas pastas de frontend e backend);
 - [ ] Fiz as configurações necessárias do meu Dockerfile
 - [ ] Executei o comando npm run compose: up:dev ( para que o docker-compose faça o up corretamente da minha aplicação)
-- [ ] Estou usando `node` na versão `16.14.0 LTS`, para [instalar o nvm](https://github.com/nvm-sh/nvm#installing-and-updating) e rode os comandos abaixo para instalar a versão e usá-la:
+- [ ] Estou usando `node` na versão `16.14.0 LTS`. [Instale o nvm](https://github.com/nvm-sh/nvm#installing-and-updating) para mudar de versão mais facilmente e rode os comandos abaixo:
    - `nvm install 16.14 --lts` baixa o node na versão especificada.
    - `nvm use 16.14` seleciona a versão para uso.
    - `nvm alias default 16.14` seta a versão como padrão.
@@ -42,7 +42,7 @@
 - [ ] A _migration_ `app/backend/src/database/migrations/99999999999999-create-z.js` roda sem problemas quando se executa `npm run db:reset`
 - [ ] Se já criei _migrations_ e _models_, renomeei as respectivas seeders, retirando os `_` do nome dos arquivos, mudando o padrão de `20211116145440-teams.js_` para `20211116145440-teams.js`
 
-	Seu Dockerfile deve ser capaz de instalar as depedências e subir a aplicação (tanto back-end como front-end). Portanto não é preciso entrar no container para instalar dependências ou iniciar a aplicação.
+Seu Dockerfile deve ser capaz de instalar as depedências e subir a aplicação (tanto back-end como front-end). Portanto não é preciso entrar no container para instalar dependências ou iniciar a aplicação.
 
 Vídeo de auxilio para as configurações iniciais: [Clique aqui](https://drive.google.com/file/d/1O_WXWUe9LP-mRXomqShK632p_lgIDjXW/view)
 
