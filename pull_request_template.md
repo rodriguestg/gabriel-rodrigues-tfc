@@ -21,7 +21,7 @@
 ### Primeiros passos:
 
 - [ ] Já li o readme detalhadamente;
-- [ ] Já li os arquivos package.json na raiz do projeto e no backend e entendi os scripts que estão à disposição (mais informações abaixo);
+- [ ] Já li os arquivos package.json na raiz do projeto e no backend e entendi os scripts que estão à disposição. [Mais informações na issue](https://github.com/tryber/sd-022-a-trybe-futebol-clube/issues/1);
 - [ ] Já li os arquivos docker-compose.yml e docker-compose.dev.yml e entendi as diferenças entre os dois;
 
 ### Configurações iniciais:
