@@ -31,9 +31,9 @@
 - [ ] Fiz as configurações necessárias do meu Dockerfile
 - [ ] Executei o comando npm run compose: up:dev ( para que o docker-compose faça o up corretamente da minha aplicação)
 - [ ] Estou usando `node` na versão `16.14.0 LTS`, para [instalar o nvm](https://github.com/nvm-sh/nvm#installing-and-updating) e rode os comandos abaixo para instalar a versão e usá-la:
-   - [ ] `nvm install 16.14 --lts`
-   - [ ] `nvm use 16.14`
-   - [ ] `nvm alias default 16.14` 
+   - `nvm install 16.14 --lts` baixa o node na versão especificada.
+   - `nvm use 16.14` seleciona a versão para uso.
+   - `nvm alias default 16.14` seta a versão como padrão.
 - [ ] Estou usando `docker-compose` na versão `ˆ1.29.2`, use esse [link de referência para essa instalação no ubuntu do course](https://app.betrybe.com/course/back-end/docker/orquestrando-containers-com-docker-compose/6e8afaef-566a-47f2-9246-d3700db7a56a/conteudo/0006a231-1a10-48a2-ac82-9e03e205a231/instalacao/abe40727-6310-4ad8-bde6-fd1e919dadc0?use_case=side_bar), existe o link da documentação oficial com passos para [desinstalar](https://docs.docker.com/compose/install/#uninstallation) caso necessário
 - [ ] Configurei minha `Dockerfile` do _frontend_ e do _backend_, copiando arquivos, instalando dependências e rodando a aplicação
 - [ ] O Docker está adicionado no grupo de usuários (você consegue executar o comando `docker ps` sem o `sudo`). Solução [aqui](https://app.betrybe.com/course/back-end/docker/utilizando-containers-docker/208d7122-25f3-4135-b6bc-84ebb49665a8/conteudos/402b5d87-1d0d-4c5d-802c-032fd062868c/fazendo-a-instalacao-do-docker-engine/67685310-ebbc-4c7c-9f50-dacc0c7d84fc?use_case=side_bar)
