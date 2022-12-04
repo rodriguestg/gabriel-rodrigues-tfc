@@ -10,16 +10,18 @@ class LoginService {
 
   login = async (email: string, password: string) => {
     try {
-      console.log('CHEGOOOOU!!!');
+      if (!email || !password) {
+        throw Error('All fields must be filled');
+      }
       const response = await UserModel.findOne({ where: { email } });
       const passwordCrypto = compareSync(password, response?.dataValues?.password);
       if (passwordCrypto && response) {
         const token: string = this.getToken.tokenGenerate(response?.id, response?.email);
-        return token;
+        return { type: null, message: token };
       }
-      throw new Error('Dados incorretos');
-    } catch (error) {
-      return 'Dados incorretos';
+      throw Error('Dados incorretos');
+    } catch ({ message }) {
+      return { type: message, message };
     }
   };
 }

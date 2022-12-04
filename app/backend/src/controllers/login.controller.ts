@@ -9,10 +9,12 @@ class LoginController {
 
   loginController = async (req: Request, res: Response) => {
     const { email, password } = req.body;
-    console.log('TA INDOOO!');
     const postLogin = await this._loginService.login(email, password);
-    if (postLogin === 'Dados incorretos') { return res.status(404).json({ message: postLogin }); }
-    return res.status(200).json({ token: postLogin });
+    const { type, message } = postLogin;
+    if (type) {
+      return res.status(400).json({ message });
+    }
+    return res.status(200).json({ token: message });
   };
 }
 

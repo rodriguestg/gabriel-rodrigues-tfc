@@ -16,8 +16,7 @@ const { app } = new App();
 const { expect } = chai;
 
 describe('Testando a páginas de login do usuário', () => {
-  // let chaiHttpResponse: Response;
-  sinon.stub(Users, 'findOne')
+   sinon.stub(Users, 'findOne')
   .resolves(mockUserLogin as Users)
 
   const loginSuccess = async () => await chai.request(app).post('/login').send({
@@ -37,7 +36,7 @@ describe('Testando a páginas de login do usuário', () => {
   });
   it('Fazendo o login com dados incorretos', async () => {
     const login = await loginIncorrect();
-    expect(login.status).to.be.eq(404);
+    expect(login.status).to.be.eq(400);
   });
   /**
    * Exemplo do uso de stubs com tipos
