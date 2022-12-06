@@ -11,7 +11,7 @@ class LoginController {
     const { email, password } = req.body;
     const postLogin = await this._loginService.login(email, password);
     const { type, message } = postLogin;
-    if (type === 'Incorrect email or password') {
+    if (message === 'Incorrect email or password') {
       return res.status(401).json({ message });
     }
     if (type) {
