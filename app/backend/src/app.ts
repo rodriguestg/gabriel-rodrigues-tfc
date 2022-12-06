@@ -13,6 +13,7 @@ class App {
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: 'true HAHAH' }));
     this.app.post('/login', (req, res) => login.loginController(req, res));
+    this.app.get('/login/validate', (req, res) => login.loginValidate(req, res));
     // this.app.get('/login', (req, res) => login.loginController(req, res));
   }
 

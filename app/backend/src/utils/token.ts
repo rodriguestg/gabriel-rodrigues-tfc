@@ -6,8 +6,8 @@ dotenv.config();
 const secret = process.env.JWT_SECRET || 'agentesecreto';
 
 export default class Token {
-  public tokenGenerate = (id: number, email: string) => {
-    const token = jwt.sign({ id, email }, secret);
+  public tokenGenerate = (id: number, role: string) => {
+    const token = jwt.sign({ id, role }, secret);
     return token;
   };
 }
