@@ -7,9 +7,13 @@ class MatchesController {
     this._matchesService = new MatchesService();
   }
 
-  getAll = async (_req: Request, res: Response) => {
+  getAll = async (req: Request, res: Response) => {
+    const { inProgress } = req.query;
+    if (typeof inProgress === 'string') {
+      const matchesFiltered = await this._matchesService.getFilterProgress(inProgress);
+      return res.status(200).json(matchesFiltered);
+    }
     const getAllMatches = await this._matchesService.getAll();
-    // console.log(getAllMatches);
     return res.status(200).json(getAllMatches);
   };
 }
