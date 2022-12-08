@@ -1,5 +1,6 @@
 import * as express from 'express';
 import LoginController from './controllers/login.controller';
+import MatchesController from './controllers/matches.controller';
 import TeamsController from './controllers/teams.controller';
 
 class App {
@@ -8,6 +9,7 @@ class App {
   constructor() {
     const login = new LoginController();
     const teams = new TeamsController();
+    const matches = new MatchesController();
     this.app = express();
 
     this.config();
@@ -18,6 +20,7 @@ class App {
     this.app.get('/login/validate', (req, res) => login.loginValidate(req, res));
     this.app.get('/teams', (req, res) => teams.teamsController(req, res));
     this.app.get('/teams/:id', (req, res) => teams.teamsGetId(req, res));
+    this.app.get('/matches', (req, res) => matches.getAll(req, res));
     // this.app.get('/login', (req, res) => login.loginController(req, res));
   }
 
