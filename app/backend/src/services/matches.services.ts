@@ -54,6 +54,20 @@ class MatchesService {
       return response;
     } catch (error) { console.log(error); }
   };
+
+  finishMatch = async (id: number) => {
+    try {
+      const match = await MatchesModel.findOne({ where: { id } });
+      if (match) {
+        match.inProgress = false;
+        await match.save();
+        return 'Finished';
+      }
+      throw new Error('MATCH NOT FOUND');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 export default MatchesService;

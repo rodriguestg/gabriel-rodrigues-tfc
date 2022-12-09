@@ -25,6 +25,7 @@ class App {
     this.app.get('/matches', (req, res) => matches.getAll(req, res));
     this.app.post('/matches', (req, res, next) => validation
       .validateToken(req, res, next), (req, res) => matches.createMatch(req, res));
+    this.app.patch('/matches/:id/finish', (req, res) => matches.finishMatch(req, res));
     // this.app.get('/login', (req, res) => login.loginController(req, res));
   }
 

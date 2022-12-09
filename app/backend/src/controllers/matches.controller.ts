@@ -23,6 +23,12 @@ class MatchesController {
       .createMatch(homeTeam, awayTeam, homeTeamGoals, awayTeamGoals);
     return res.status(201).json(postMatch);
   };
+
+  finishMatch = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const message = await this._matchesService.finishMatch(Number(id));
+    return res.status(200).json({ message });
+  };
 }
 
 export default MatchesController;
