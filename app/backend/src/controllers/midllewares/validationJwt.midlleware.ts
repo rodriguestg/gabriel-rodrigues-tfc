@@ -11,7 +11,7 @@ class validateJWT {
     const { authorization } = req.headers;
 
     if (!authorization) {
-      return res.status(401).json({ message: 'Token not found' });
+      return res.status(401).json({ message: 'Token must be a valid token' });
     }
 
     try {
@@ -19,7 +19,7 @@ class validateJWT {
 
       next();
     } catch (err) {
-      return res.status(401).json({ message: err });
+      return res.status(401).json({ message: 'Token must be a valid token' });
     }
   };
 }

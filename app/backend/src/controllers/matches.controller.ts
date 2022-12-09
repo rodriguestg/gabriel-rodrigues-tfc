@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
+import TeamsService from '../services/teams.service';
 import MatchesService from '../services/matches.services';
 
 class MatchesController {
   _matchesService: MatchesService;
+  _teamsService: TeamsService;
   constructor() {
     this._matchesService = new MatchesService();
+    this._teamsService = new TeamsService();
   }
 
   getAll = async (req: Request, res: Response) => {
@@ -19,9 +22,18 @@ class MatchesController {
 
   createMatch = async (req: Request, res: Response) => {
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
-    const postMatch = await this._matchesService
+    const team1 = await this._teamsService.getTeamId(Number(homeTeam));
+    const team2 = await this._teamsService.getTeamId(Number(awayTeam));
+    if (!team1 || !team2) {
+      return res.status(404).json({ message: 'There is no team with such id!' });
+    }
+    const matchPost = await this._matchesService
       .createMatch(homeTeam, awayTeam, homeTeamGoals, awayTeamGoals);
-    return res.status(201).json(postMatch);
+    if (typeof matchPost === 'string') {
+      console.log(matchPost);
+      return res.status(422).json({ message: matchPost });
+    }
+    return res.status(201).json(matchPost);
   };
 
   finishMatch = async (req: Request, res: Response) => {

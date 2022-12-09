@@ -44,6 +44,9 @@ class MatchesService {
     awayTeamGoals: number,
   ) => {
     try {
+      if (homeTeam === awayTeam) {
+        return 'It is not possible to create a match with two equal teams';
+      }
       const response = await MatchesModel.create({
         homeTeam,
         awayTeam,
@@ -52,7 +55,7 @@ class MatchesService {
         inProgress: true,
       });
       return response;
-    } catch (error) { console.log(error); }
+    } catch (error) { console.log(error); return error; }
   };
 
   finishMatch = async (id: number) => {
