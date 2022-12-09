@@ -71,6 +71,21 @@ class MatchesService {
       console.log(error);
     }
   };
+
+  alterMatch = async (id: number, home: number, away: number) => {
+    try {
+      const match = await MatchesModel.findOne({ where: { id } });
+      if (match) {
+        match.homeTeamGoals = home;
+        match.awayTeamGoals = away;
+        await match.save();
+        return 'Atualizado';
+      }
+      throw new Error('MATCH NOT FOUND');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 export default MatchesService;
