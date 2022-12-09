@@ -36,6 +36,24 @@ class MatchesService {
       return response;
     } catch (error) { console.log(error); }
   };
+
+  createMatch = async (
+    homeTeam: number,
+    awayTeam: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ) => {
+    try {
+      const response = await MatchesModel.create({
+        homeTeam,
+        awayTeam,
+        homeTeamGoals,
+        awayTeamGoals,
+        inProgress: true,
+      });
+      return response;
+    } catch (error) { console.log(error); }
+  };
 }
 
 export default MatchesService;

@@ -16,6 +16,13 @@ class MatchesController {
     const getAllMatches = await this._matchesService.getAll();
     return res.status(200).json(getAllMatches);
   };
+
+  createMatch = async (req: Request, res: Response) => {
+    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
+    const postMatch = await this._matchesService
+      .createMatch(homeTeam, awayTeam, homeTeamGoals, awayTeamGoals);
+    return res.status(201).json(postMatch);
+  };
 }
 
 export default MatchesController;

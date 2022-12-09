@@ -1,6 +1,7 @@
 import * as express from 'express';
 import LoginController from './controllers/login.controller';
 import MatchesController from './controllers/matches.controller';
+import ValidateJWT from './controllers/midllewares/validationJwt.midlleware';
 import TeamsController from './controllers/teams.controller';
 
 class App {
@@ -10,6 +11,7 @@ class App {
     const login = new LoginController();
     const teams = new TeamsController();
     const matches = new MatchesController();
+    const validation = new ValidateJWT();
     this.app = express();
 
     this.config();
@@ -21,6 +23,8 @@ class App {
     this.app.get('/teams', (req, res) => teams.teamsController(req, res));
     this.app.get('/teams/:id', (req, res) => teams.teamsGetId(req, res));
     this.app.get('/matches', (req, res) => matches.getAll(req, res));
+    this.app.post('/matches', (req, res, next) => validation
+      .validateToken(req, res, next), (req, res) => matches.createMatch(req, res));
     // this.app.get('/login', (req, res) => login.loginController(req, res));
   }
 
