@@ -1,4 +1,5 @@
 import * as express from 'express';
+import LeaderboardController from './controllers/leaderboard.controller';
 import LoginController from './controllers/login.controller';
 import MatchesController from './controllers/matches.controller';
 import ValidateJWT from './controllers/midllewares/validationJwt.midlleware';
@@ -12,6 +13,7 @@ class App {
     const teams = new TeamsController();
     const matches = new MatchesController();
     const validation = new ValidateJWT();
+    const leaderboard = new LeaderboardController();
     this.app = express();
 
     this.config();
@@ -27,7 +29,7 @@ class App {
       .validateToken(req, res, next), (req, res) => matches.createMatch(req, res));
     this.app.patch('/matches/:id/finish', (req, res) => matches.finishMatch(req, res));
     this.app.patch('/matches/:id', (req, res) => matches.alterMatch(req, res));
-    // this.app.get('/login', (req, res) => login.loginController(req, res));
+    this.app.get('/leaderboard/home', (req, res) => leaderboard.getAll(req, res));
   }
 
   private config():void {
