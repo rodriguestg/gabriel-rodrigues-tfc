@@ -8,28 +8,31 @@ import TeamsController from './controllers/teams.controller';
 class App {
   public app: express.Express;
 
+  login = new LoginController();
+  teams = new TeamsController();
+  matches = new MatchesController();
+  validation = new ValidateJWT();
+  leaderboard = new LeaderboardController();
+
   constructor() {
-    const login = new LoginController();
-    const teams = new TeamsController();
-    const matches = new MatchesController();
-    const validation = new ValidateJWT();
-    const leaderboard = new LeaderboardController();
     this.app = express();
 
     this.config();
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: 'true HAHAH' }));
-    this.app.post('/login', (req, res) => login.loginController(req, res));
-    this.app.get('/login/validate', (req, res) => login.loginValidate(req, res));
-    this.app.get('/teams', (req, res) => teams.teamsController(req, res));
-    this.app.get('/teams/:id', (req, res) => teams.teamsGetId(req, res));
-    this.app.get('/matches', (req, res) => matches.getAll(req, res));
-    this.app.post('/matches', (req, res, next) => validation
-      .validateToken(req, res, next), (req, res) => matches.createMatch(req, res));
-    this.app.patch('/matches/:id/finish', (req, res) => matches.finishMatch(req, res));
-    this.app.patch('/matches/:id', (req, res) => matches.alterMatch(req, res));
-    this.app.get('/leaderboard/home', (req, res) => leaderboard.getAll(req, res));
+    this.app.post('/login', (req, res) => this.login.loginController(req, res));
+    this.app.get('/login/validate', (req, res) => this.login.loginValidate(req, res));
+    this.app.get('/teams', (req, res) => this.teams.teamsController(req, res));
+    this.app.get('/teams/:id', (req, res) => this.teams.teamsGetId(req, res));
+    this.app.get('/matches', (req, res) => this.matches.getAll(req, res));
+    this.app.post('/matches', (req, res, next) => this.validation
+      .validateToken(req, res, next), (req, res) => this.matches.createMatch(req, res));
+    this.app.patch('/matches/:id/finish', (req, res) => this.matches.finishMatch(req, res));
+    this.app.patch('/matches/:id', (req, res) => this.matches.alterMatch(req, res));
+    this.app.get('/leaderboard', (req, res) => this.leaderboard.getAll(req, res));
+    this.app.get('/leaderboard/home', (req, res) => this.leaderboard.getAllHome(req, res));
+    this.app.get('/leaderboard/away', (req, res) => this.leaderboard.getAllAway(req, res));
   }
 
   private config():void {
