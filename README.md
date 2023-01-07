@@ -1,8 +1,4 @@
-# Boas vindas ao repositório do Trybe Futebol Clube!
-
-<summary><strong>👨‍💻 O que foi desenvolvido</strong></summary><br />
-
-  Exemplos:
+# Trybe Futebol Clube! ⚽️
 
   O `TFC` é um site informativo sobre partidas e classificações de futebol! ⚽️
 
