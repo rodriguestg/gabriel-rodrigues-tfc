@@ -30,7 +30,6 @@ class MatchesController {
     const matchPost = await this._matchesService
       .createMatch(homeTeam, awayTeam, homeTeamGoals, awayTeamGoals);
     if (typeof matchPost === 'string') {
-      console.log(matchPost);
       return res.status(422).json({ message: matchPost });
     }
     return res.status(201).json(matchPost);

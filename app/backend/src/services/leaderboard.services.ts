@@ -1,10 +1,12 @@
 import TeamModel from '../database/models/Teams';
 import MatchesModel from '../database/models/Matches';
 import TeamsService from './teams.service';
+import IMatch from '../interfaces/Match';
+import ILeaderboard from '../interfaces/Leaderboard';
 
 class LeaderboardService {
   _teamsService: TeamsService;
-  leaderboard: any[] = [];
+  leaderboard: ILeaderboard[] = [];
   constructor() {
     this._teamsService = new TeamsService();
     this.initialTeams();
@@ -49,14 +51,14 @@ class LeaderboardService {
     },
   ];
 
-  efficiency = (element: any) => {
+  efficiency = (element: ILeaderboard) => {
     const stageOne = element.totalGames * 3;
     const stageTwo = element.totalPoints / stageOne;
     const result = stageTwo * 100;
     return result.toFixed(2);
   };
 
-  tiebreaker = (a: any, b: any) => {
+  tiebreaker = (a: ILeaderboard, b: ILeaderboard) => {
     if (b.totalVictories > a.totalVictories) { return 1; }
     if (b.totalVictories < a.totalVictories) { return -1; }
     if (b.goalsBalance > a.goalsBalance) { return 1; }
@@ -68,7 +70,7 @@ class LeaderboardService {
 
   // 1º Total de Vitórias; 2º Saldo de gols; 3º Gols a favor; 4º Gols sofridos.
   compareResults = () => {
-    this.leaderboard.sort((a: any, b: any): number => {
+    this.leaderboard.sort((a: ILeaderboard, b: ILeaderboard): number => {
       if (b.totalPoints > a.totalPoints) { return 1; }
       if (b.totalPoints === a.totalPoints) {
         return this.tiebreaker(a, b);
@@ -77,44 +79,36 @@ class LeaderboardService {
     });
   };
 
-  updateRatingHome = (match: any) => {
+  updateGeneral = (match: IMatch, team: string) => {
+    const { teamSelected, goalsOneTeam, goalsTwoTeam } = this.validationTeam(match, team);
     for (let i = 0; i < this.leaderboard.length; i += 1) {
       const element = this.leaderboard[i];
-      if (element.name === match.teamHome.teamName) {
-        if (match.homeTeamGoals > match.awayTeamGoals) {
+      if (element.name === teamSelected) {
+        if (goalsOneTeam > goalsTwoTeam) {
           element.totalPoints += 3;
           element.totalVictories += 1;
-        } else if (match.homeTeamGoals === match.awayTeamGoals) {
+        } else if (goalsOneTeam === goalsTwoTeam) {
           element.totalPoints += 1;
           element.totalDraws += 1;
         } else { element.totalLosses += 1; }
         element.totalGames += 1;
-        element.goalsFavor += match.homeTeamGoals;
-        element.goalsOwn += match.awayTeamGoals;
+        element.goalsFavor += goalsOneTeam;
+        element.goalsOwn += goalsTwoTeam;
         element.goalsBalance = element.goalsFavor - element.goalsOwn;
         element.efficiency = this.efficiency(element);
       }
     }
   };
 
-  updateRatingAway = (match: any) => {
-    for (let i = 0; i < this.leaderboard.length; i += 1) {
-      const element = this.leaderboard[i];
-      if (element.name === match.teamAway.teamName) {
-        if (match.awayTeamGoals > match.homeTeamGoals) {
-          element.totalPoints += 3;
-          element.totalVictories += 1;
-        } else if (match.homeTeamGoals === match.awayTeamGoals) {
-          element.totalPoints += 1;
-          element.totalDraws += 1;
-        } else { element.totalLosses += 1; }
-        element.totalGames += 1;
-        element.goalsFavor += match.awayTeamGoals;
-        element.goalsOwn += match.homeTeamGoals;
-        element.goalsBalance = element.goalsFavor - element.goalsOwn;
-        element.efficiency = this.efficiency(element);
-      }
-    }
+  validationTeam = (match: IMatch, team: string) => {
+    const teamSelected = team === 'teamAway' ? match.teamAway?.teamName : match.teamHome?.teamName;
+    const goalsOneTeam = team === 'teamAway' ? match.awayTeamGoals : match.homeTeamGoals;
+    const goalsTwoTeam = team === 'teamAway' ? match.homeTeamGoals : match.awayTeamGoals;
+    return {
+      teamSelected,
+      goalsOneTeam,
+      goalsTwoTeam,
+    };
   };
 
   getAll = async () => {
@@ -122,8 +116,8 @@ class LeaderboardService {
       this.initialTeams();
       const response = await this.matchesModel();
       response.forEach((match) => {
-        this.updateRatingHome(match);
-        this.updateRatingAway(match);
+        this.updateGeneral(match, 'teamAway');
+        this.updateGeneral(match, 'teamHome');
       });
       this.compareResults();
       return this.leaderboard;
@@ -135,7 +129,7 @@ class LeaderboardService {
       this.initialTeams();
       const response = await this.matchesModel();
       response.forEach((match) => {
-        this.updateRatingHome(match);
+        this.updateGeneral(match, 'teamHome');
       });
       this.compareResults();
       return this.leaderboard;
@@ -147,7 +141,7 @@ class LeaderboardService {
       this.initialTeams();
       const response = await this.matchesModel();
       response.forEach((match) => {
-        this.updateRatingAway(match);
+        this.updateGeneral(match, 'teamAway');
       });
       this.compareResults();
       return this.leaderboard;
